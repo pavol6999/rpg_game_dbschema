@@ -85,6 +85,9 @@ prepájaca tabulky, ktorá prepája achievementy s hrdinami. jeden achievement m
 táto sekcia sa bude zaoberať stavebným blokom našej hry a to sú hrdinovia. každý užívateľ má jeden a viac hrdinov alebo postáv, ktoré môže hrať. každý hrdina má svoju vlastnú rasu a svoje vlastné jedno povolanie (class). 
 
 
+## heroes
+hlavná tabuľka, ktorá uchováva všetky hratelné postavy užívateľov.  jeden užívateľ môže mať viacero hrdinov. každý hrdina má svoj basic attack damage, životy, manu a obranné číslo. taktiež peniaze v hre sú rozdelené do dvoch sekcií a to **cash_money** a **bank_money** kde cash money sú peniaze, ktoré má hrdina pri sebe a teda ak ho zabijú tak môže o ne prísť a bank_money sú uložené peniaze v banke o ktoré nemôže prísť. každý hrdina má tiež svoj vlastný level a počet skúsenostných bodov uložených v databáze a **word_level**, čo predstavuje najvyšší level, ktorý hrdina dokázal prejsť. každý hrdina má taktiež svoje povolanie **class_id** a rasu **race_id**
+
 ## levels 
 tabulka, ktorá nám udržiava levely, počet skúsenostných bodov a nejaké darčeky za dané levely. rozhodli sme sa tieto levely udržiavať v tabuľke aby sme ich mohli meniť ako potrebujeme. 
 
@@ -156,7 +159,7 @@ prepájaca tabulka medzi schopnosťami a npc postavami aby aj nehrateľné posta
 ## npc_hero_nicknames
 keď hráč postupuje levelmi a spĺňa hlavné úlohy tak postupne prechádza míľnikmi, ktoré mu prinášajú tituly. Môže to byť napríklad zabitie bossa, nájdenie špeciálneho predmetu alebo zúčastnenie sa na nejakom evente, kde daný hrdina niečo dokázal. Tituly si hrdina nevie zmeniť v nastavení hry. Predsa len, keby sme dokázali sa prezývať inak, tak by sme to museli povedať každej osobe v našom hernom svete. Chceme preto ponechať roleplay zážitok a preto sa tituly budú viazať k nejakému míľniku. Tituly budú používané nehratelnými postavami ako alterntatíva k užívateľskému menu podľa hostility. 
 ## loot_drop
-tabulka, v ktorej sú zahrnuté informácie o tom, ktoré predmety padajú po zabití nejakej nehratelnej postavy. slúži ako asociačná tabulka a prepája many to many vzťah medzi **npc a items**. 
+tabulka, v ktorej sú zahrnuté informácie o tom, ktoré predmety padajú po zabití nejakej nehratelnej postavy. slúži ako asociačná tabulka a prepája many to many vzťah medzi **npc a items**. každé npc má šancu po jeho zabití poskytnúť hráčovi nejaké predmety. v tejto tabuľke sú aj zapísané akej rarity môže tento predmet byť a  koľko ich padne.
 # ITEMS SECTION
 ## items
 všeobecná tabulka pre predmety, ktorá spája tabulky **weapons**, **armors**, **accessories** a **consumables**. v tejto tabuľke sa nachádzajú všetky dodatočné informácie o predmete ako je jeho rarita, meno, váha a cena. môžeme to chápať ako všeobecný predmet. ako príklad môžeme uviesť **meč Aerondight**, tento meč bude mať v tabuľke **weapons** definované jeho vlastnosti čo sa týka súboja v tabuľke items jeho meno, predajnú cenu a tak ďalej. Teda jedna zbraň v tabuľke **weapons** môže referuje na jeden predmet a preto tam je kardinalny vztah 1:1. 
@@ -186,3 +189,9 @@ ak sa ocitneme v súboji, kde bojujeme naraz spolu s tromi bruxami, tak táto br
 
 ## fights_heroes
 asociačná tabulka medzi hrdinami a súbojmi a či hrdina počas súboju zomrel.
+
+## fights
+tabuľka, ktorá predstavuje jedne súboj pre hrdinu. jeden fight môže mať viacero rovnakých/rôznych npc, tento vzťah mapuje asociačná tabulka **npc_fight**. fight taktiež môže mať viacero hrdinov, toto je namapované pomocou tabulky **fights_heroes**. jeden fight má uložené aj kedy sa súboj odohral, aká bola xp reward, gold reward a či bol fight vyhraný. môžeme si to pre hrdinu predstaviť ako história súbojov. potrebné pre logovanie 
+
+## combat_logs
+hra pracuje na báze kôl kde jedno kolo sa rozdeluje na ťahy. jeden ťah sme my útočník a druhý ťah sme my obrancovia. za jeden ťah môžeme spraviť jeden move, či už zaútočiť alebo vyčarovať nejaké kúzlo. každý súboj musí byť logovaný a tak v tejto tabulke sa nachádzajú všetky ťahy vo všetkých súbojov. každý ťah máme dve strany **attacker** a **defender**. vždy sme z pohladu útočníka a preto sa píše koľko zranenia spôsobil utočnik, koľko života zostalo obrancovy, aké spelly použil útočník a obranca (*obranca sa môže napr štítíť pred kúzlom magickým štítom**). každý záznam v combat logu má uvedený v ktorom ťahu to prebehlo **turn_number** a v ktorom kole to prebehlo **round_number**, taktiež odkazuje na súboj **fight_id**. aby sme predišli nedeterminizmu tak id nehratelných postáv sú nalinkované na tabulkú **npc_fight**, lebo sa môže stať, že bojujeme proti dvom rovnakým nepriatelom (maju rovnake id) a pri auditovani by sme nevedeli na ktorého z nich hrdina zaútočil. 
