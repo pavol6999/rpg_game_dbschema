@@ -13,7 +13,7 @@
 
 # USER SECTION
 
-## user
+## users
 najhlavnejšia tabulka v sekcií užívateľov. ukladá nám informácie o koncovom užívateľovi. 
 **realname** - meno,  budeme užívateľa oslovovať mimo hru (email, newsletter)
 **username** - prihlasovacie meno
@@ -61,7 +61,7 @@ prechodová tabulka, užívateľ môže byt vo viacero roomkach a roomky môžu 
 tabuľka všetkych chatovacích miestností, každá roomka má svoje meno a typ. Typy môžeme chápať ako zameranie roomky, ktoré si nastavia užívatelia. napríklad typ môže byť **looking for team**, **final boss fight**. 
 
 ## messages
-tabuľka so všetkými správami. Jedna správa sa skladá z **room_id** (kde bola správa odoslaná), **sender** (kto poslal správu), **created_at** (kedy bola správa vytvorená) a **message_text** ( celý obsah správy). Takýmto uložením správy vieme následne chatovacie roomky upravovať  a lahko auditovať. Text správy vieme pred zobrazením v hernej logike tokenizovať a cenzorovať ak sa tam nachádza nevhodný obsah. V prípade, že užívateľ opakovane porušuje pravidlá a správa sa nevhodne, tak vieme jeho správy aj vymazať. Zobrazenie správ pre jednu roomku si vieme predstaviť ako jednoduchý select všetkých správ kde id roomky je rovnaké.
+tabuľka so všetkými správami. Jedna správa sa skladá z **room_id** (kde bola správa odoslaná), **sender** (kto poslal správu), **created_at** (kedy bola správa vytvorená) a **message_text** ( celý obsah správy). Takýmto uložením správy vieme následne chatovacie roomky upravovať  a lahko auditovať. Text správy vieme pred zobrazením v hernej logike tokenizovať a cenzorovať ak sa tam nachádza nevhodný obsah. V prípade, že užívateľ opakovane porušuje pravidlá a správa sa nevhodne, tak vieme jeho správy aj vymazať. Zobrazenie správ pre jednu roomku si vieme predstaviť ako jednoduchý select všetkých správ kde id roomky je rovnaké. inak povedané, či už si píšeme s jedným kamarátom alebo s celou skupinou, bude nám pridelená roomka.
 <br />
 <br />
 
@@ -90,6 +90,13 @@ tabulka, ktorá nám udržiava levely, počet skúsenostných bodov a nejaké da
 
 ## classes
 povolania hrdinov, každé povolanie má svoje meno a nejaký popis, ktorý bližšie charakterizuje postavu. ďalej každé povolanie je stavané inak a tak dáva zmysel aby aj svoje atribúty sa zvyšovali inak (**XY_per_level**). Predsa len ak by sme si vybrali ako classu barbarského bojovníka tak nám dáva zmysel, že jeho útok a život by sa mal zvyšovať rýchlejšie ako elfský mág. tomu prideluje viacej many na svoje kúzla. každá classa po levelovaní dostane možnosť vybrať si kúzla alebo talenty zo stromu schopností. každá postava má svoje vlastné schopnosti aby sa nestalo, že barbar pošle na nepriatelov pekelnú búrku  
+## abilities
+táto tabuľka nám slúži na uloženie všetkých abilitiek, ktoré sú v hre. abilitky môžeme chápať ako kúzla (mág) alebo špeciálne útoky (barbar). každá abilitka má nejaký **mana_cost**, pri niektorých classach (*warlock*) to môže byť **health_cost**,  **spell_type** nám hovorí či abilitka berie physical, magical alebo pure damage. pri nastavení **splash_damage** bude abilitka použitá na väčšiu skupinu či už spojencov (*Group Heal*) alebo nepriatelov (*Flames of Incredible Boredom*). Status effect nám naznačuje či tá abilitka má šancu postaviť nepriatela pod efekt ako je (*stun*, *slow*, *boredom*, *silence*,*...*). aby sa hrdina mohol naučiť nejakú schopnosť tak potrebuje **ability_points**, ktoré sú mu pridelené podľa levelu hrdinu. 
+## abilities_requirement
+aby mohli byť abilitky viazané do stromovej štruktúry a tak som mohol zaviesť požiadavky čo musí hrdina spĺnať aby sa mohol novú abilitku naučiť tak potrebujeme novú tabulku. táto tabulka slúži na uloženie dvoch požiadaviek a to 1. abilitky, ktoré hrdina musí ovládať aby sa mohol naučiť novú schopnosť, a 2. povolanie, ktoré hrdina musí mať. 
+
+## heroes_abilities
+asociačná tabulka medzi hrdinami a schopnosťami pre *many to many* vzťah. do tejto tabuľky sa zapisujú všetky naučené schopnosti, ktoré hrdinovia majú.
 
 ## races
 tabuľka, kde sú udržiavané všetky rasy v našej hre. každá rasa má svoje meno a nejaký ich príbeh prečo sa rozhodli bojovať proti zlému Melishkovi (finálny boss). každá rasa má svoju unikátnu schopnosť (**racial_ability**) - napríklad elfovia vedia byť neviditelný v lese. každá rasa taktiež prichádza so speciálnymi buffmi a začiatočnými atribútmi, ktoré sú pre každú rasu iné.
@@ -116,6 +123,19 @@ prepojovacia tabuĺka medzi predmetmi a misiami. niektoré misie môžu ako odme
 ## quests_players_relationship
 asociačná tabuľka medzi hrdinami a úlohami. jeden hrdina vie mať viacero misií aktívnych a jednu misiu vie mať viacero hrdinov naraz. stĺpec completed nám hovorí, či už danú misiu hrdina splnil.
 
+
+
+# MAP SECTION
+celý koncept sme sa rozhodli rozdrobiť do viacero tabuliek aby sme neboli limitovaný jednou statickou mapou pre každú lokáciu. naše ponímanie sveta je také, že celá hra sa odohráva v nejakom svete, ktorý sa podobá na štýl ťahových RPG hier (*Legend of Grimrock*, *Might and Magic*). Máme teda herný svet (koncept), ktorý sa skladá z rôznych máp ktoré su dostupné pre hráča. Aby sme to opísali lepšie, tak herný svet môže byť podobný tomu na obrázku 2 (rozloženie týchto miest rieši herná logika0 a každý tento point kde sa vie dostať hráč bude vyzerať ako nejaký dungeon kde príklad môžeme vidieť na obrázku 3. Teda svet nie je open world ale rozdelený na lokácie.
+
+## Map
+tu sú udržiavané všetky mapy, ich veľkosť. Meno a popis opisuje hrdinom čo ich čaká v tej lokácií ak sa rozhodnú do nej vstúpiť.
+
+## Objects
+aby sme nemali statickú mapu, ktorá sa nemení, tak sme sa rozhodli pridať tabulku s objektami, ktoré každý maju svoje meno a súbor kde sa objekt nachádza ('"bytea"). Dajmä tomu, že hrdinovia sa nachádzajú niekde na centrálnej mape ("HUB") a bližia sa sviatky. Ak pridáme objekt do tabulky objektov tak takto môžeme lahko pridať vianočny stromček na mapu bez toho aby sme museli pretvárať celú mapu.
+
+## map_objects
+táto tabuĺka nám slúži ako prepájacia medzi objektami a mapou. zahrna v sebe id mapy, XYZ pozíciu. 
 
 # ITEMS SECTION
 ## requirements
