@@ -101,8 +101,6 @@ asociačná tabulka medzi hrdinami a schopnosťami pre *many to many* vzťah. do
 ## races
 tabuľka, kde sú udržiavané všetky rasy v našej hre. každá rasa má svoje meno a nejaký ich príbeh prečo sa rozhodli bojovať proti zlému Melishkovi (finálny boss). každá rasa má svoju unikátnu schopnosť (**racial_ability**) - napríklad elfovia vedia byť neviditelný v lese. každá rasa taktiež prichádza so speciálnymi buffmi a začiatočnými atribútmi, ktoré sú pre každú rasu iné.
 
-## npc_hero_nicknames
-keď hráč postupuje levelmi a spĺňa hlavné úlohy tak postupne prechádza míľnikmi, ktoré mu prinášajú tituly. Môže to byť napríklad zabitie bossa, nájdenie špeciálneho predmetu alebo zúčastnenie sa na nejakom evente, kde daný hrdina niečo dokázal. Tituly si hrdina nevie zmeniť v nastavení hry. Predsa len, keby sme dokázali sa prezývať inak, tak by sme to museli povedať každej osobe v našom hernom svete. Chceme preto ponechať roleplay zážitok a preto sa tituly budú viazať k nejakému míľniku. Tituly budú používané nehratelnými postavami ako alterntatíva k užívateľskému menu podľa hostility. 
 
 ## perks 
 perky sú ako atribúty, ktoré má hrdina a hovoria nám aký je daný hrdina v tej oblasti. ak má hrdina vysoký **persuasion**, tak je prehováranie pre neho hračka, ak má hrdina vysoký **charisma** tak je hrdina vnímaný npc-čkami ako velký idol a urobia mu lepšiu cenu. niektoré perky je možné zvyšovať aj predmetmi. každý hrdina má svoju vlastnú sadu perkov
@@ -112,6 +110,9 @@ tabuľka schopností nám slúži na zapisovanie vedlajších aktivít hrdinu. j
 
 ## unique_mobs_killed
 podľa podmienky sa niektoré typy npc môžu zjaviť až po tom ako sa zabije nejaký predchádzajúce monštrum. preto každý hrdina bude mať záznam v tejto tabulke spolu s id npc-čkom aby sme udržiavali aké unikátne monštrá hrdina zabil. je to asociačná tabulka medzi npc postavami a hrdinami. v hernej logike to bude navrhnuté tak, že tieto unikatne moby sa budú spawnovať v oddelenej časti mapy a vstupi iba ten ktorý je hoden (ktory ma poziadavky na zabite moby)
+
+## player_items
+tabulka, ktorá slúži ako inventár každého hráča. je to asociačná tabuľka medzi hrdinom a predmetmi. taktiež je potrebné udať či je práve ten item equipnutý alebo nie. herná logika vyrieši, aby predmet nemohol byt nesený na nesprávnom mieste.
 
 # QUESTS SECTION
 ## quests
@@ -152,17 +153,36 @@ Každé npc má svoj range pre drop goldu a xp pointov a svoj vlastný loot_drop
 
 ## npc_spells
 prepájaca tabulka medzi schopnosťami a npc postavami aby aj nehrateľné postavy mohli používať schopnosti.
+## npc_hero_nicknames
+keď hráč postupuje levelmi a spĺňa hlavné úlohy tak postupne prechádza míľnikmi, ktoré mu prinášajú tituly. Môže to byť napríklad zabitie bossa, nájdenie špeciálneho predmetu alebo zúčastnenie sa na nejakom evente, kde daný hrdina niečo dokázal. Tituly si hrdina nevie zmeniť v nastavení hry. Predsa len, keby sme dokázali sa prezývať inak, tak by sme to museli povedať každej osobe v našom hernom svete. Chceme preto ponechať roleplay zážitok a preto sa tituly budú viazať k nejakému míľniku. Tituly budú používané nehratelnými postavami ako alterntatíva k užívateľskému menu podľa hostility. 
+## loot_drop
+tabulka, v ktorej sú zahrnuté informácie o tom, ktoré predmety padajú po zabití nejakej nehratelnej postavy. slúži ako asociačná tabulka a prepája many to many vzťah medzi **npc a items**. 
 # ITEMS SECTION
+## items
+všeobecná tabulka pre predmety, ktorá spája tabulky **weapons**, **armors**, **accessories** a **consumables**. v tejto tabuľke sa nachádzajú všetky dodatočné informácie o predmete ako je jeho rarita, meno, váha a cena. môžeme to chápať ako všeobecný predmet. ako príklad môžeme uviesť **meč Aerondight**, tento meč bude mať v tabuľke **weapons** definované jeho vlastnosti čo sa týka súboja v tabuľke items jeho meno, predajnú cenu a tak ďalej. Teda jedna zbraň v tabuľke **weapons** môže referuje na jeden predmet a preto tam je kardinalny vztah 1:1. 
+
 ## requirements
 tabulka kde sú vedené požiadavky čo potrebuje hrdina splnať aby mohol equipnut daný item. požiadavky sú viazane na perky
+
+## item_modifiers
+každý hrdina môže meniť svoje predmety, napríklad im môže pridať zvýšenie útočného čísla alebo ho nejako inak modifikovať. v tejto tabulke sa ukladá nejaká modifikácia predmetu, ktorý vlastní hráč.  modifkovať môže v číslach alebo percentách. ako príklad dajmä tomu, že máme meč a hrdina si ho enchantol aby mu zvýšil utočne čislo o 10. do tabulky sa pridá záznam, že **modifies = damage , flat_value = 10, player_item_id  = (id predmetu v inventara hrdinu**. pri enchantovaní môžeme **modifies** nastaviť na **enchanting**
 
 ## accessories
 tabulka, kde sú uložené všetky doplnky v hre. doplnok je jediný typ predmetu, ktorého hlavný faktor je zvyšovanie **perkov** hrdinu. dajmä tomu, že sme zaklínač a ako doplnok máme medailu, ktorá vibruje keď sú nepriatelia blízko. preto sa hrdinovi zvýši **perception** o zopár bodov.
 
+## consumables
+tabulka, kde sú uložené všetky predmeti, ktoré môžu byť zjedeny a tak pridajú nejaký efekt hrdinovy. môžeme to chápať ako lektvary alebo jedlo. každý consumable môže doplnovať zivoty, manu či už jednorázovo alebo počas dlhšej doby. niektore consumables tiež dokážu dať hrdinovy efekt či už pozitívny alebo negatívny. príklad : ak je hrdina spomalený tak vypije lektvar, ktorý odstráni tento debuff.
 
+
+## weapons
+tabulka, kde sa nachádzajú všetky zbrane v hre. zbran má svoje útočné čislo, šancu na kritikálny útok, veľkosť kritikálneho útoku, či sa zbran drží v dvoch rukách alebo nie, typ zbrane a vzdialenosť zbrane (kuša, luk). 
+
+## armor
+tabulka, kde sa nachádzajú všetky brnenia (aj štíty) v hre. brnenie má svoje defenzívne číslo, zvýšenie šanci na critical attack a zväčšenie many (čarodejsky klobuk). 
 # COMBAT SECTION
 
 ## npc_fight
 ak sa ocitneme v súboji, kde bojujeme naraz spolu s tromi bruxami, tak táto bruxa má každé také isté **id**, lebo je to tá istá nehratelná postva. aby sme vedeli tieto mobky odlíšiť, tak potrebujeme definovať nové unikátne **id**. táto tabuľka slúži na prepojenie viacerých npc so súbojom.
 
-## 
+## fights_heroes
+asociačná tabulka medzi hrdinami a súbojmi a či hrdina počas súboju zomrel.
