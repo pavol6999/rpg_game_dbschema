@@ -73,7 +73,7 @@ tabuľka so všetkými správami. Jedna správa sa skladá z **room_id** (kde bo
 
 ## achievements 
 tabulka, ktorá udržiava všetky achievementy v hre. každý achievement má svoje meno, popis a požadované parametre, ktoré musia byť splnené aby hrdina dostal svoj achievement. Achievement sa viaže na hrdinu a nie na účet.
-![alt text](https://github.com/FIIT-DBS/zadanie4-stv10-bencel-z4_krajkovic_palenik/blob/master/images/Achievement.jpg?raw=true)
+![alt text](https://github.com/FIIT-DBS/zadanie4-stv10-bencel-z4_krajkovic_palenik/blob/master/images/Achievement.png?raw=true)
 Obrázok 1
 
 ## hero_statistics
@@ -141,10 +141,16 @@ asociačná tabuľka medzi hrdinami a úlohami. jeden hrdina vie mať viacero mi
 # MAP SECTION
 celý koncept sme sa rozhodli rozdrobiť do viacero tabuliek aby sme neboli limitovaný jednou statickou mapou pre každú lokáciu. naše ponímanie sveta je také, že celá hra sa odohráva v nejakom svete, ktorý sa podobá na štýl ťahových RPG hier (*Legend of Grimrock*, *Might and Magic*). Máme teda herný svet (koncept), ktorý sa skladá z rôznych máp ktoré su dostupné pre hráča. Aby sme to opísali lepšie, tak herný svet môže byť podobný tomu na obrázku 2 (rozloženie týchto miest rieši herná logika) a každý tento point kde sa vie dostať hráč bude vyzerať ako nejaký dungeon kde príklad môžeme vidieť na obrázku 3. Teda svet nie je open world ale rozdelený na lokácie.
 
+<br />
+
 ![alt text](https://github.com/FIIT-DBS/zadanie4-stv10-bencel-z4_krajkovic_palenik/blob/master/images/diablo_map.jpg?raw=true)
 Obrázok 2
+
+<br />
+
 ![alt text](https://github.com/FIIT-DBS/zadanie4-stv10-bencel-z4_krajkovic_palenik/blob/master/images/dungeon_map.jpg?raw=true)
 Obrázok 3
+
 ## Map
 tu sú udržiavané všetky mapy, ich veľkosť. Meno a popis opisuje hrdinom čo ich čaká v tej lokácií ak sa rozhodnú do nej vstúpiť.
 
@@ -156,6 +162,9 @@ táto tabuĺka nám slúži ako prepájacia medzi objektami a mapou. zahrna v se
 
 ## npc_spawn_rules
 táto tabuľka slúži na mapovanie npc postáv na danú mapu. je to miesto, kde sa budú spawnovať npc postavy, ich typ a koľko, herná logika zabezpečí rozostup medzi nimi. predstavme si lokalitu kde v strede opusteneho lesa máme táborák, takéto miesta aj v moderných hrách vyzerajú, že tam bude nejaký nepriatel, takýto príklad môžeme vidieť na obrázku 5. každý záznam má **npc_id**, čas pokial sa oživí po zabití **dead_time**, **XYZ súradnicu**, šanca na dropnutie predmetu po zabití, jeho **xp_reward_factor** a **gold_reward_factor** za zabitie. Tieto dva faktory môžeme chápať tak, že zatial čo Griffin na začiatku bol veĺmi ťažký zabiť tak ku koncu hry bude ľahší a tak by sa malo dostávať za neho menej goldu a xp. Každý takýto spawn má zahrnutý aj level npc, ktoré sú v nom. tento level bude prepočítaný v hernej logike aby niektoré npc boli silné aj keď sa hrdina vylepšuje. 
+
+<br />
+
 ![alt text](https://github.com/FIIT-DBS/zadanie4-stv10-bencel-z4_krajkovic_palenik/blob/master/images/npc_spawn.jpg?raw=true)
 
 ## players_locations
