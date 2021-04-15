@@ -117,6 +117,8 @@ podľa podmienky sa niektoré typy npc môžu zjaviť až po tom ako sa zabije n
 
 ## player_items
 tabulka, ktorá slúži ako inventár každého hráča. je to asociačná tabuľka medzi hrdinom a predmetmi. taktiež je potrebné udať či je práve ten item equipnutý alebo nie. herná logika vyrieši, aby predmet nemohol byt nesený na nesprávnom mieste.
+<br />
+<br />
 
 # QUESTS SECTION
 ## quests
@@ -129,12 +131,14 @@ prepojovacia tabuĺka medzi predmetmi a misiami. niektoré misie môžu ako odme
 asociačná tabuľka medzi hrdinami a úlohami. jeden hrdina vie mať viacero misií aktívnych a jednu misiu vie mať viacero hrdinov naraz. stĺpec completed nám hovorí, či už danú misiu hrdina splnil.
 
 
+<br />
+<br />
 
 # MAP SECTION
 celý koncept sme sa rozhodli rozdrobiť do viacero tabuliek aby sme neboli limitovaný jednou statickou mapou pre každú lokáciu. naše ponímanie sveta je také, že celá hra sa odohráva v nejakom svete, ktorý sa podobá na štýl ťahových RPG hier (*Legend of Grimrock*, *Might and Magic*). Máme teda herný svet (koncept), ktorý sa skladá z rôznych máp ktoré su dostupné pre hráča. Aby sme to opísali lepšie, tak herný svet môže byť podobný tomu na obrázku 2 (rozloženie týchto miest rieši herná logika) a každý tento point kde sa vie dostať hráč bude vyzerať ako nejaký dungeon kde príklad môžeme vidieť na obrázku 3. Teda svet nie je open world ale rozdelený na lokácie.
 
-[world]: images/diablo_map.jpg"Obrázok 2"
-[map]: images/dungeon_map.jpg"Obrázok 3"
+[world]: images/diablo_map.jpg "Obrázok 2"
+[map]: images/dungeon_map.jpg "Obrázok 3"
 
 ## Map
 tu sú udržiavané všetky mapy, ich veľkosť. Meno a popis opisuje hrdinom čo ich čaká v tej lokácií ak sa rozhodnú do nej vstúpiť.
@@ -147,8 +151,13 @@ táto tabuĺka nám slúži ako prepájacia medzi objektami a mapou. zahrna v se
 
 ## npc_spawn_rules
 táto tabuľka slúži na mapovanie npc postáv na danú mapu. je to miesto, kde sa budú spawnovať npc postavy, ich typ a koľko, herná logika zabezpečí rozostup medzi nimi. predstavme si lokalitu kde v strede opusteneho lesa máme táborák, takéto miesta aj v moderných hrách vyzerajú, že tam bude nejaký nepriatel, takýto príklad môžeme vidieť na obrázku 5. každý záznam má **npc_id**, čas pokial sa oživí po zabití **dead_time**, **XYZ súradnicu**, šanca na dropnutie predmetu po zabití, jeho **xp_reward_factor** a **gold_reward_factor** za zabitie. Tieto dva faktory môžeme chápať tak, že zatial čo Griffin na začiatku bol veĺmi ťažký zabiť tak ku koncu hry bude ľahší a tak by sa malo dostávať za neho menej goldu a xp. Každý takýto spawn má zahrnutý aj level npc, ktoré sú v nom. tento level bude prepočítaný v hernej logike aby niektoré npc boli silné aj keď sa hrdina vylepšuje. 
+[spawn]: images/npc_spawn.jpg "Obrázok 4"
+
 ## players_locations
 do tejto tabulky sa priebežne každých n minút zapisuje pozícia všetkých hráčov ak príde k reštartu serveru. Keď sa hráč odhlási z hry, tak sa jeho pozícia tiež uloží ak hráč nie je akurát v súboji.
+
+<br />
+<br />
 
 
 # NPC SECTION
@@ -164,6 +173,9 @@ prepájaca tabulka medzi schopnosťami a npc postavami aby aj nehrateľné posta
 keď hráč postupuje levelmi a spĺňa hlavné úlohy tak postupne prechádza míľnikmi, ktoré mu prinášajú tituly. Môže to byť napríklad zabitie bossa, nájdenie špeciálneho predmetu alebo zúčastnenie sa na nejakom evente, kde daný hrdina niečo dokázal. Tituly si hrdina nevie zmeniť v nastavení hry. Predsa len, keby sme dokázali sa prezývať inak, tak by sme to museli povedať každej osobe v našom hernom svete. Chceme preto ponechať roleplay zážitok a preto sa tituly budú viazať k nejakému míľniku. Tituly budú používané nehratelnými postavami ako alterntatíva k užívateľskému menu podľa hostility. 
 ## loot_drop
 tabulka, v ktorej sú zahrnuté informácie o tom, ktoré predmety padajú po zabití nejakej nehratelnej postavy. slúži ako asociačná tabulka a prepája many to many vzťah medzi **npc a items**. každé npc má šancu po jeho zabití poskytnúť hráčovi nejaké predmety. v tejto tabuľke sú aj zapísané akej rarity môže tento predmet byť a  koľko ich padne.
+<br />
+<br />
+
 # ITEMS SECTION
 ## items
 všeobecná tabulka pre predmety, ktorá spája tabulky **weapons**, **armors**, **accessories** a **consumables**. v tejto tabuľke sa nachádzajú všetky dodatočné informácie o predmete ako je jeho rarita, meno, váha a cena. môžeme to chápať ako všeobecný predmet. ako príklad môžeme uviesť **meč Aerondight**, tento meč bude mať v tabuľke **weapons** definované jeho vlastnosti čo sa týka súboja v tabuľke items jeho meno, predajnú cenu a tak ďalej. Teda jedna zbraň v tabuľke **weapons** môže referuje na jeden predmet a preto tam je kardinalny vztah 1:1. 
@@ -186,6 +198,9 @@ tabulka, kde sa nachádzajú všetky zbrane v hre. zbran má svoje útočné či
 
 ## armor
 tabulka, kde sa nachádzajú všetky brnenia (aj štíty) v hre. brnenie má svoje defenzívne číslo, zvýšenie šanci na critical attack a zväčšenie many (čarodejsky klobuk). 
+<br />
+<br />
+
 # COMBAT SECTION
 
 ## npc_fight
