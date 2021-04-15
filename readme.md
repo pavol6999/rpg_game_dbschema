@@ -1,5 +1,5 @@
 
-[![rickroll](https://cldup.com/dTxpPi9lDf.thumb.png)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+[![ytb_db_showcase](images/images.png)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 
 
 
@@ -71,6 +71,7 @@ tabuľka so všetkými správami. Jedna správa sa skladá z **room_id** (kde bo
 
 ## achievements 
 tabulka, ktorá udržiava všetky achievementy v hre. každý achievement má svoje meno, popis a požadované parametre, ktoré musia byť splnené aby hrdina dostal svoj achievement. Achievement sa viaže na hrdinu a nie na účet.
+[achievement]: images/Achievement.png "Obrázok 1"
 
 ## hero_statistics
 v tejto tabulke sú uložené všetky akcie hrdinu, či už to je počet zabitých monštier, koľko zlatych mincí minul, koľko bossov zomrelo vďaka nemu a tak ďalej. Je to jedna z primárnych tabuliek aby mohla logika hrdinovy dávať achievementy.
@@ -130,7 +131,10 @@ asociačná tabuľka medzi hrdinami a úlohami. jeden hrdina vie mať viacero mi
 
 
 # MAP SECTION
-celý koncept sme sa rozhodli rozdrobiť do viacero tabuliek aby sme neboli limitovaný jednou statickou mapou pre každú lokáciu. naše ponímanie sveta je také, že celá hra sa odohráva v nejakom svete, ktorý sa podobá na štýl ťahových RPG hier (*Legend of Grimrock*, *Might and Magic*). Máme teda herný svet (koncept), ktorý sa skladá z rôznych máp ktoré su dostupné pre hráča. Aby sme to opísali lepšie, tak herný svet môže byť podobný tomu na obrázku 2 (rozloženie týchto miest rieši herná logika0 a každý tento point kde sa vie dostať hráč bude vyzerať ako nejaký dungeon kde príklad môžeme vidieť na obrázku 3. Teda svet nie je open world ale rozdelený na lokácie.
+celý koncept sme sa rozhodli rozdrobiť do viacero tabuliek aby sme neboli limitovaný jednou statickou mapou pre každú lokáciu. naše ponímanie sveta je také, že celá hra sa odohráva v nejakom svete, ktorý sa podobá na štýl ťahových RPG hier (*Legend of Grimrock*, *Might and Magic*). Máme teda herný svet (koncept), ktorý sa skladá z rôznych máp ktoré su dostupné pre hráča. Aby sme to opísali lepšie, tak herný svet môže byť podobný tomu na obrázku 2 (rozloženie týchto miest rieši herná logika) a každý tento point kde sa vie dostať hráč bude vyzerať ako nejaký dungeon kde príklad môžeme vidieť na obrázku 3. Teda svet nie je open world ale rozdelený na lokácie.
+
+[world]: images/diablo_map.jpg"Obrázok 2"
+[map]: images/dungeon_map.jpg"Obrázok 3"
 
 ## Map
 tu sú udržiavané všetky mapy, ich veľkosť. Meno a popis opisuje hrdinom čo ich čaká v tej lokácií ak sa rozhodnú do nej vstúpiť.
