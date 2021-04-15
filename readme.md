@@ -73,7 +73,13 @@ tabuľka so všetkými správami. Jedna správa sa skladá z **room_id** (kde bo
 
 ## achievements 
 tabulka, ktorá udržiava všetky achievementy v hre. každý achievement má svoje meno, popis a požadované parametre, ktoré musia byť splnené aby hrdina dostal svoj achievement. Achievement sa viaže na hrdinu a nie na účet.
+
+<br />
+
 ![alt text](https://github.com/FIIT-DBS/zadanie4-stv10-bencel-z4_krajkovic_palenik/blob/master/images/Achievement.png?raw=true)
+
+<br />
+
 Obrázok 1
 
 ## hero_statistics
@@ -144,11 +150,17 @@ celý koncept sme sa rozhodli rozdrobiť do viacero tabuliek aby sme neboli limi
 <br />
 
 ![alt text](https://github.com/FIIT-DBS/zadanie4-stv10-bencel-z4_krajkovic_palenik/blob/master/images/diablo_map.jpg?raw=true)
+
+<br />
+
 Obrázok 2
 
 <br />
 
 ![alt text](https://github.com/FIIT-DBS/zadanie4-stv10-bencel-z4_krajkovic_palenik/blob/master/images/dungeon_map.jpg?raw=true)
+
+<br />
+
 Obrázok 3
 
 ## Map
