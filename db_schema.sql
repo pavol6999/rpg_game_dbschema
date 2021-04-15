@@ -1,8 +1,8 @@
 CREATE TABLE "users" (
   "id" BIGSERIAL UNIQUE PRIMARY KEY,
-  "username" varchar(32),
-  "nickname" varchar(50),
-  "realname" varchar(64),
+  "username" varchar(32) NOT NULL,
+  "nickname" varchar(50) NOT NULL,
+  "realname" varchar(64) NOT NULL,
   "email_address" varchar(320),
   "password_hash" varchar(32),
   "banned" boolean,
@@ -13,23 +13,24 @@ CREATE TABLE "users" (
 
 CREATE TABLE "friend_requests" (
   "id" bigint UNIQUE PRIMARY KEY,
-  "user_id" bigint,
-  "friend_id" bigint,
-  "created_at" timestamp
+  "user_id" bigint NOT NULL,
+  "friend_id" bigint NOT NULL,
+  "created_at" timestamp NOT NULL
 );
 
 CREATE TABLE "map" (
   "id" integer PRIMARY KEY,
-  "name" varchar(64),
-  "x_size" integer,
-  "y_size" integer
+  "name" varchar(64) NOT NULL,
+  "x_size" integer NOT NULL,
+  "y_size" integer NOT NULL
 );
 
 CREATE TABLE "messages" (
   "id" BIGSERIAL UNIQUE PRIMARY KEY,
-  "sender" bigint,
-  "room_id" bigint,
-  "message_data" text
+  "sender" bigint NOT NULL,
+  "room_id" bigint NOT NULL,
+  "message_data" text NOT NULL,
+  "created_at" timestamp NOT NULL
 );
 
 CREATE TABLE "rooms" (
@@ -52,6 +53,32 @@ CREATE TABLE "map_objects" (
   "y_pos" integer
 );
 
+CREATE TABLE "abilities" (
+  "id" integer PRIMARY KEY,
+  "name" varchar(20),
+  "description" varchar(100),
+  "damage" integer,
+  "heal" integer,
+  "spell_type" varchar(10),
+  "splash_damage" boolean,
+  "status_effect" varchar(10),
+  "status_duration" integer,
+  "mana_cost" integer,
+  "health_cost" integer
+);
+
+CREATE TABLE "abilities_requirement" (
+  "id" integer PRIMARY KEY,
+  "ability_id" integer,
+  "required_ability_id" integer
+);
+
+CREATE TABLE "heroes_abilities" (
+  "id" bigint PRIMARY KEY,
+  "hero_id" bigint,
+  "ability_id" bigint
+);
+
 CREATE TABLE "objects" (
   "id" bigint PRIMARY KEY,
   "name" varchar(64),
@@ -66,6 +93,7 @@ CREATE TABLE "npc_spawn_rules" (
   "z_level" integer,
   "dead_time" integer,
   "isSpawned" boolean,
+  "group_size" smallint,
   "isRespawnable" boolean,
   "npc_id" integer,
   "item_droprate_factor" float,
@@ -102,8 +130,16 @@ CREATE TABLE "non_playable_characters" (
   "max_itemdrop_value" integer
 );
 
+CREATE TABLE "fights_heroes" (
+  "id" bigint PRIMARY KEY,
+  "fight_id" bigint,
+  "heroes_id" bigint,
+  "died" boolean
+);
+
 CREATE TABLE "items" (
   "id" BIGSERIAL PRIMARY KEY,
+  "rarity" varchar(10),
   "req_id" integer,
   "name" varchar(64),
   "description" varchar(128),
@@ -116,12 +152,18 @@ CREATE TABLE "items" (
   "price" integer
 );
 
+CREATE TABLE "heroes_achievements" (
+  "id" bigint PRIMARY KEY,
+  "hero_id" bigint,
+  "achievement_id" bigint,
+  "created_at" timestamp
+);
+
 CREATE TABLE "item_modifiers" (
   "id" bigint PRIMARY KEY,
-  "item_id" bigint,
+  "player_item_id" bigint,
   "modifies" varchar(32),
   "modifier_type_flat" boolean,
-  "requirements_id" bigint,
   "flat_value" integer,
   "percent_value" float
 );
@@ -129,10 +171,11 @@ CREATE TABLE "item_modifiers" (
 CREATE TABLE "weapon" (
   "id" bigint PRIMARY KEY,
   "item_id" bigint,
+  "weapon_type" varchar(20),
   "two_wielded" boolean,
   "attack_up" integer,
   "critical_chance" float,
-  "criticak_percent" smallint,
+  "critical_percent" smallint,
   "attack_speed" integer,
   "splash_damage" boolean,
   "weapon_range" smallint,
@@ -150,8 +193,7 @@ CREATE TABLE "armor" (
 
 CREATE TABLE "requirements" (
   "id" SERIAL PRIMARY KEY,
-  "race_req" smallint,
-  "level_requirement" integer,
+  "level_req" integer,
   "strength_req" smallint,
   "agility_req" smallint,
   "intelligence_req" smallint,
@@ -209,11 +251,11 @@ CREATE TABLE "user_relationship" (
 CREATE TABLE "classes" (
   "id" smallint UNIQUE PRIMARY KEY,
   "name" varchar(20),
+  "description" text,
   "healt_per_level" integer,
   "mana_per_level" integer,
   "attack_per_level" integer,
-  "defense_per_level" integer,
-  "unique_abilities" text
+  "defense_per_level" integer
 );
 
 CREATE TABLE "loot_drop" (
@@ -233,9 +275,11 @@ CREATE TABLE "loot_drop" (
 
 CREATE TABLE "races" (
   "id" SERIAL PRIMARY KEY,
-  "name" text,
+  "language" varchar(10),
+  "name" varchar(20),
+  "lore" text,
   "start_city_name" text,
-  "racial_ability" text,
+  "racial_ability" integer,
   "special_buffs" text,
   "base_strength" smallint,
   "base_agility" smallint,
@@ -249,8 +293,6 @@ CREATE TABLE "races" (
 CREATE TABLE "fights" (
   "id" bigint PRIMARY KEY,
   "map_id" integer,
-  "hero_id" bigint,
-  "fight_combat_id" bigint,
   "won" boolean,
   "initiator" boolean,
   "xp_reward" integer,
@@ -265,16 +307,17 @@ CREATE TABLE "combat_logs" (
   "fight_id" bigint,
   "user_attacker_id" bigint,
   "user_defender_id" bigint,
+  "npc_identificator" smallint,
   "npc_attacker_id" bigint,
   "npc_defender_id" bigint,
   "damage_dealt" integer,
   "defender_health" integer,
   "attacker_weapon_id" bigint,
   "defender_defense_number" bigint,
-  "attacker_spell_used" integer,
-  "defender_spell_used" integer,
+  "attacker_ability_used" integer,
+  "defender_ability_used" integer,
   "attacker_status_effect" varchar(10),
-  "defender_dead" boolean,
+  "defender_died" boolean,
   "created_at" timestamp
 );
 
@@ -373,6 +416,7 @@ CREATE TABLE "hero_statistics" (
 
 CREATE TABLE "accessories" (
   "id" bigint PRIMARY KEY,
+  "type" varchar(20),
   "item_id" bigint,
   "strength_up" smallint,
   "agility_up" smallint,
@@ -383,9 +427,15 @@ CREATE TABLE "accessories" (
   "persuasion_up" smallint
 );
 
+CREATE TABLE "npc_fight" (
+  "id" bigint PRIMARY KEY,
+  "fight_id" bigint,
+  "non_playable_characters_id" bigint
+);
+
 CREATE TABLE "achievements" (
   "id" SERIAL PRIMARY KEY,
-  "hero_id" bigint,
+  "requirements" text,
   "name" varchar(64),
   "description" text
 );
@@ -400,13 +450,14 @@ CREATE TABLE "quests_player_relationship" (
 CREATE TABLE "quests" (
   "id" SERIAL PRIMARY KEY,
   "name" varchar(64),
+  "main_quest" boolean,
   "lvl_requirement" integer,
   "map_requirement" integer,
   "description" text,
   "quest_giver" bigint,
   "xp_reward" integer,
-  "gold_reward" integer,
-  "quest_script_id" integer
+  "preceeding_quest_id" integer,
+  "gold_reward" integer
 );
 
 CREATE TABLE "quest_item_rewards" (
@@ -429,6 +480,14 @@ ALTER TABLE "map_objects" ADD FOREIGN KEY ("map_id") REFERENCES "map" ("id");
 
 ALTER TABLE "map_objects" ADD FOREIGN KEY ("object_id") REFERENCES "objects" ("id");
 
+ALTER TABLE "abilities_requirement" ADD FOREIGN KEY ("ability_id") REFERENCES "abilities" ("id");
+
+ALTER TABLE "abilities_requirement" ADD FOREIGN KEY ("required_ability_id") REFERENCES "abilities" ("id");
+
+ALTER TABLE "heroes_abilities" ADD FOREIGN KEY ("hero_id") REFERENCES "heroes" ("id");
+
+ALTER TABLE "heroes_abilities" ADD FOREIGN KEY ("ability_id") REFERENCES "abilities" ("id");
+
 ALTER TABLE "npc_spawn_rules" ADD FOREIGN KEY ("map_id") REFERENCES "map" ("id");
 
 ALTER TABLE "npc_spawn_rules" ADD FOREIGN KEY ("npc_id") REFERENCES "non_playable_characters" ("id");
@@ -437,15 +496,21 @@ ALTER TABLE "player_location" ADD FOREIGN KEY ("player_id") REFERENCES "heroes" 
 
 ALTER TABLE "player_location" ADD FOREIGN KEY ("map_id") REFERENCES "map" ("id");
 
+ALTER TABLE "fights_heroes" ADD FOREIGN KEY ("fight_id") REFERENCES "fights" ("id");
+
+ALTER TABLE "fights_heroes" ADD FOREIGN KEY ("heroes_id") REFERENCES "heroes" ("id");
+
 ALTER TABLE "items" ADD FOREIGN KEY ("req_id") REFERENCES "requirements" ("id");
 
-ALTER TABLE "item_modifiers" ADD FOREIGN KEY ("item_id") REFERENCES "items" ("id");
+ALTER TABLE "heroes_achievements" ADD FOREIGN KEY ("hero_id") REFERENCES "heroes" ("id");
+
+ALTER TABLE "heroes_achievements" ADD FOREIGN KEY ("achievement_id") REFERENCES "achievements" ("id");
+
+ALTER TABLE "item_modifiers" ADD FOREIGN KEY ("player_item_id") REFERENCES "player_items" ("id");
 
 ALTER TABLE "weapon" ADD FOREIGN KEY ("item_id") REFERENCES "items" ("id");
 
 ALTER TABLE "armor" ADD FOREIGN KEY ("item_id") REFERENCES "items" ("id");
-
-ALTER TABLE "requirements" ADD FOREIGN KEY ("race_req") REFERENCES "races" ("id");
 
 ALTER TABLE "teams" ADD FOREIGN KEY ("leader_id") REFERENCES "users" ("id");
 
@@ -471,11 +536,9 @@ ALTER TABLE "loot_drop" ADD FOREIGN KEY ("npc_id") REFERENCES "non_playable_char
 
 ALTER TABLE "loot_drop" ADD FOREIGN KEY ("item_id") REFERENCES "items" ("id");
 
+ALTER TABLE "races" ADD FOREIGN KEY ("racial_ability") REFERENCES "abilities" ("id");
+
 ALTER TABLE "fights" ADD FOREIGN KEY ("map_id") REFERENCES "map" ("id");
-
-ALTER TABLE "fights" ADD FOREIGN KEY ("hero_id") REFERENCES "heroes" ("id");
-
-ALTER TABLE "combat_logs" ADD FOREIGN KEY ("id") REFERENCES "fights" ("fight_combat_id");
 
 ALTER TABLE "combat_logs" ADD FOREIGN KEY ("fight_id") REFERENCES "fights" ("id");
 
@@ -483,11 +546,15 @@ ALTER TABLE "combat_logs" ADD FOREIGN KEY ("user_attacker_id") REFERENCES "heroe
 
 ALTER TABLE "combat_logs" ADD FOREIGN KEY ("user_defender_id") REFERENCES "heroes" ("id");
 
-ALTER TABLE "combat_logs" ADD FOREIGN KEY ("npc_attacker_id") REFERENCES "non_playable_characters" ("id");
+ALTER TABLE "combat_logs" ADD FOREIGN KEY ("npc_attacker_id") REFERENCES "npc_fight" ("id");
 
-ALTER TABLE "combat_logs" ADD FOREIGN KEY ("npc_defender_id") REFERENCES "non_playable_characters" ("id");
+ALTER TABLE "combat_logs" ADD FOREIGN KEY ("npc_defender_id") REFERENCES "npc_fight" ("id");
 
 ALTER TABLE "combat_logs" ADD FOREIGN KEY ("attacker_weapon_id") REFERENCES "weapon" ("id");
+
+ALTER TABLE "combat_logs" ADD FOREIGN KEY ("attacker_ability_used") REFERENCES "abilities" ("id");
+
+ALTER TABLE "combat_logs" ADD FOREIGN KEY ("defender_ability_used") REFERENCES "abilities" ("id");
 
 ALTER TABLE "heroes" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
@@ -517,7 +584,9 @@ ALTER TABLE "hero_statistics" ADD FOREIGN KEY ("hero_id") REFERENCES "heroes" ("
 
 ALTER TABLE "accessories" ADD FOREIGN KEY ("item_id") REFERENCES "items" ("id");
 
-ALTER TABLE "achievements" ADD FOREIGN KEY ("hero_id") REFERENCES "heroes" ("id");
+ALTER TABLE "npc_fight" ADD FOREIGN KEY ("fight_id") REFERENCES "fights" ("id");
+
+ALTER TABLE "npc_fight" ADD FOREIGN KEY ("non_playable_characters_id") REFERENCES "non_playable_characters" ("id");
 
 ALTER TABLE "quests_player_relationship" ADD FOREIGN KEY ("hero_id") REFERENCES "heroes" ("id");
 
@@ -525,13 +594,17 @@ ALTER TABLE "quests_player_relationship" ADD FOREIGN KEY ("quest_id") REFERENCES
 
 ALTER TABLE "quests" ADD FOREIGN KEY ("quest_giver") REFERENCES "non_playable_characters" ("id");
 
+ALTER TABLE "quests" ADD FOREIGN KEY ("preceeding_quest_id") REFERENCES "quests" ("id");
+
 ALTER TABLE "quest_item_rewards" ADD FOREIGN KEY ("quest_id") REFERENCES "quests" ("id");
 
 ALTER TABLE "quest_item_rewards" ADD FOREIGN KEY ("item_id") REFERENCES "items" ("id");
 
-COMMENT ON COLUMN "users"."nickname" IS 'username sa nemusi zhodovat s ';
-
 COMMENT ON COLUMN "rooms"."room_type" IS 'trade, LFG, idk';
+
+COMMENT ON COLUMN "abilities"."spell_type" IS 'pure, magical, physical';
+
+COMMENT ON COLUMN "abilities"."status_effect" IS 'slow, stun, damage over time, idk man';
 
 COMMENT ON COLUMN "items"."type" IS 'weapon, armor, consumable,material';
 
