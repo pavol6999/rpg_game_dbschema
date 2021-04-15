@@ -66,7 +66,7 @@ tabuľka so všetkými správami. Jedna správa sa skladá z **room_id** (kde bo
 <br />
 
 
-# Achievements and Statistics
+# ACHIEVEMENTS AND STATISTICS
 
 
 ## achievements 
@@ -81,7 +81,7 @@ prepájaca tabulky, ktorá prepája achievementy s hrdinami. jeden achievement m
 <br />
 <br />
 
-# Heroes section
+# HEROES SECTION
 táto sekcia sa bude zaoberať stavebným blokom našej hry a to sú hrdinovia. každý užívateľ má jeden a viac hrdinov alebo postáv, ktoré môže hrať. každý hrdina má svoju vlastnú rasu a svoje vlastné jedno povolanie (class). 
 
 
@@ -113,7 +113,7 @@ tabuľka schopností nám slúži na zapisovanie vedlajších aktivít hrdinu. j
 ## unique_mobs_killed
 podľa podmienky sa niektoré typy npc môžu zjaviť až po tom ako sa zabije nejaký predchádzajúce monštrum. preto každý hrdina bude mať záznam v tejto tabulke spolu s id npc-čkom aby sme udržiavali aké unikátne monštrá hrdina zabil. je to asociačná tabulka medzi npc postavami a hrdinami. v hernej logike to bude navrhnuté tak, že tieto unikatne moby sa budú spawnovať v oddelenej časti mapy a vstupi iba ten ktorý je hoden (ktory ma poziadavky na zabite moby)
 
-# Quests section
+# QUESTS SECTION
 ## quests
 tabulka, kde sú vedené všetky misie, ktoré existujú v hre. jedna misia - quest - má svoje meno a popis, čo je potrebné aby hrdina spravil aby splnil misiu  a dostal odmenu. na každej mape/lokalite budú npc postavy, ktoré budú dávať tieto misie (**quest_giver_id**), misia zabi finálneho bossa však nebude dostupná ihneď zo začiatku tak preto sú definované požiadavky a to **level_requirement**, **map_requirement**.  každý quest musí nadväzovať čo sa týka príbehu a tak potrebujeme pridať nový požiadavok a to **preceeding_quest_id**, podľa ktorého zoradíme postupnosť questov chronologicky.  každá misia dáva hrdinovi určítú sumu zlatých mincií **gold_reward**, bodov skúseností **xp_reward**
 
@@ -137,6 +137,32 @@ aby sme nemali statickú mapu, ktorá sa nemení, tak sme sa rozhodli pridať ta
 ## map_objects
 táto tabuĺka nám slúži ako prepájacia medzi objektami a mapou. zahrna v sebe id mapy, XYZ pozíciu. 
 
+## npc_spawn_rules
+táto tabuľka slúži na mapovanie npc postáv na danú mapu. je to miesto, kde sa budú spawnovať npc postavy, ich typ a koľko, herná logika zabezpečí rozostup medzi nimi. predstavme si lokalitu kde v strede opusteneho lesa máme táborák, takéto miesta aj v moderných hrách vyzerajú, že tam bude nejaký nepriatel, takýto príklad môžeme vidieť na obrázku 5. každý záznam má **npc_id**, čas pokial sa oživí po zabití **dead_time**, **XYZ súradnicu**, šanca na dropnutie predmetu po zabití, jeho **xp_reward_factor** a **gold_reward_factor** za zabitie. Tieto dva faktory môžeme chápať tak, že zatial čo Griffin na začiatku bol veĺmi ťažký zabiť tak ku koncu hry bude ľahší a tak by sa malo dostávať za neho menej goldu a xp. Každý takýto spawn má zahrnutý aj level npc, ktoré sú v nom. tento level bude prepočítaný v hernej logike aby niektoré npc boli silné aj keď sa hrdina vylepšuje. 
+## players_locations
+do tejto tabulky sa priebežne každých n minút zapisuje pozícia všetkých hráčov ak príde k reštartu serveru. Keď sa hráč odhlási z hry, tak sa jeho pozícia tiež uloží ak hráč nie je akurát v súboji.
+
+
+# NPC SECTION
+v tejto sekcií si povieme o všetkých tabuľkách, ktoré majú čo to spoločné s nehratelnými postavami
+## non_playaber_characters
+tabulka, kde sú uložené všetky nehratelné postavy. rozhodli sme sa do tejto tabuľky zahrnúť ako aj nepriateľov, tak aj obyčajných obchodníkov, spojencov, ktorí nie sú hostilny. v hre môžeme zabiť každého. každé npc má svoje meno, hostilitu a unikátny faktor. Ak sa zabije npc, ktoré je unikátne, tak sa zapíše do tabulky **unique_mobs_killed** a toto môže ovplyvniť priebeh hry pre daného hrdinu. Zmení sa príbehová linka pre hrdinu.
+Každé npc majú také isté vlastnosti ako hrdina ale hrá za nich počítač, preto majú tiež svoj život, attack, manu a abilitky, ktoré prepája asociačná tabulka **npc_abilities**
+Každé npc má svoj range pre drop goldu a xp pointov a svoj vlastný loot_drop, ktorý linkuje tabuľka **loot_drop**
+
+## npc_spells
+prepájaca tabulka medzi schopnosťami a npc postavami aby aj nehrateľné postavy mohli používať schopnosti.
 # ITEMS SECTION
 ## requirements
 tabulka kde sú vedené požiadavky čo potrebuje hrdina splnať aby mohol equipnut daný item. požiadavky sú viazane na perky
+
+## accessories
+tabulka, kde sú uložené všetky doplnky v hre. doplnok je jediný typ predmetu, ktorého hlavný faktor je zvyšovanie **perkov** hrdinu. dajmä tomu, že sme zaklínač a ako doplnok máme medailu, ktorá vibruje keď sú nepriatelia blízko. preto sa hrdinovi zvýši **perception** o zopár bodov.
+
+
+# COMBAT SECTION
+
+## npc_fight
+ak sa ocitneme v súboji, kde bojujeme naraz spolu s tromi bruxami, tak táto bruxa má každé také isté **id**, lebo je to tá istá nehratelná postva. aby sme vedeli tieto mobky odlíšiť, tak potrebujeme definovať nové unikátne **id**. táto tabuľka slúži na prepojenie viacerých npc so súbojom.
+
+## 
