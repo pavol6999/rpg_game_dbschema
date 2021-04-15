@@ -1,5 +1,4 @@
 
-[![ytb_db_showcase](images/images.png)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 
 
 
@@ -34,6 +33,7 @@ tabulka, kde sú uložené všetky vzťahy užívateľov. V momentálnej situác
 
 ## friend_requests
 tabulka, ktorá nám ukladá všetky pozvánky priateľstva. Priateľstvo vzniká medzi dvomi hráčmi a nie medzi dvomi hrdinami, čo je výhodnejšie pre samotného koncového užívateľa
+
 <br />
 <br />
 
@@ -48,6 +48,7 @@ tabuľka, kde sú uložené všetky tímy podľa ich ID. Každý tím má svojho
 
 ## team_invites
 všetky pozvánky do tímov, ktoré sú odoslané hrdinom. Pre to, aby sa užívateľom nehromadili duplicitné pozvánky ak by dostal pozvánku z tímu XY od dvoch a viac hráčov naraz, tak sa pozvánka odosiela v mene tíma a s ID prvým odosielateľom pozvánky. Pred tým než sa pošle pozvánka, tak sa pozrie systém či už neexistuje pozvánka z tímu XY a ak nie, tak sa spraví nový záznam s ID tímom, ID hrdinu komu ide pozvánka, ID hrdinu ktorý pozval hrdinu a čas kedy bola pozvánka odoslaná. 
+
 <br />
 <br />
 
@@ -62,6 +63,7 @@ tabuľka všetkych chatovacích miestností, každá roomka má svoje meno a typ
 
 ## messages
 tabuľka so všetkými správami. Jedna správa sa skladá z **room_id** (kde bola správa odoslaná), **sender** (kto poslal správu), **created_at** (kedy bola správa vytvorená) a **message_text** ( celý obsah správy). Takýmto uložením správy vieme následne chatovacie roomky upravovať  a lahko auditovať. Text správy vieme pred zobrazením v hernej logike tokenizovať a cenzorovať ak sa tam nachádza nevhodný obsah. V prípade, že užívateľ opakovane porušuje pravidlá a správa sa nevhodne, tak vieme jeho správy aj vymazať. Zobrazenie správ pre jednu roomku si vieme predstaviť ako jednoduchý select všetkých správ kde id roomky je rovnaké. inak povedané, či už si píšeme s jedným kamarátom alebo s celou skupinou, bude nám pridelená roomka.
+
 <br />
 <br />
 
@@ -117,6 +119,7 @@ podľa podmienky sa niektoré typy npc môžu zjaviť až po tom ako sa zabije n
 
 ## player_items
 tabulka, ktorá slúži ako inventár každého hráča. je to asociačná tabuľka medzi hrdinom a predmetmi. taktiež je potrebné udať či je práve ten item equipnutý alebo nie. herná logika vyrieši, aby predmet nemohol byt nesený na nesprávnom mieste.
+
 <br />
 <br />
 
@@ -138,8 +141,9 @@ asociačná tabuľka medzi hrdinami a úlohami. jeden hrdina vie mať viacero mi
 celý koncept sme sa rozhodli rozdrobiť do viacero tabuliek aby sme neboli limitovaný jednou statickou mapou pre každú lokáciu. naše ponímanie sveta je také, že celá hra sa odohráva v nejakom svete, ktorý sa podobá na štýl ťahových RPG hier (*Legend of Grimrock*, *Might and Magic*). Máme teda herný svet (koncept), ktorý sa skladá z rôznych máp ktoré su dostupné pre hráča. Aby sme to opísali lepšie, tak herný svet môže byť podobný tomu na obrázku 2 (rozloženie týchto miest rieši herná logika) a každý tento point kde sa vie dostať hráč bude vyzerať ako nejaký dungeon kde príklad môžeme vidieť na obrázku 3. Teda svet nie je open world ale rozdelený na lokácie.
 
 [world]: images/diablo_map.jpg "Obrázok 2"
+Obrázok 2
 [map]: images/dungeon_map.jpg "Obrázok 3"
-
+Obrázok 3
 ## Map
 tu sú udržiavané všetky mapy, ich veľkosť. Meno a popis opisuje hrdinom čo ich čaká v tej lokácií ak sa rozhodnú do nej vstúpiť.
 
@@ -173,6 +177,7 @@ prepájaca tabulka medzi schopnosťami a npc postavami aby aj nehrateľné posta
 keď hráč postupuje levelmi a spĺňa hlavné úlohy tak postupne prechádza míľnikmi, ktoré mu prinášajú tituly. Môže to byť napríklad zabitie bossa, nájdenie špeciálneho predmetu alebo zúčastnenie sa na nejakom evente, kde daný hrdina niečo dokázal. Tituly si hrdina nevie zmeniť v nastavení hry. Predsa len, keby sme dokázali sa prezývať inak, tak by sme to museli povedať každej osobe v našom hernom svete. Chceme preto ponechať roleplay zážitok a preto sa tituly budú viazať k nejakému míľniku. Tituly budú používané nehratelnými postavami ako alterntatíva k užívateľskému menu podľa hostility. 
 ## loot_drop
 tabulka, v ktorej sú zahrnuté informácie o tom, ktoré predmety padajú po zabití nejakej nehratelnej postavy. slúži ako asociačná tabulka a prepája many to many vzťah medzi **npc a items**. každé npc má šancu po jeho zabití poskytnúť hráčovi nejaké predmety. v tejto tabuľke sú aj zapísané akej rarity môže tento predmet byť a  koľko ich padne.
+
 <br />
 <br />
 
@@ -198,6 +203,7 @@ tabulka, kde sa nachádzajú všetky zbrane v hre. zbran má svoje útočné či
 
 ## armor
 tabulka, kde sa nachádzajú všetky brnenia (aj štíty) v hre. brnenie má svoje defenzívne číslo, zvýšenie šanci na critical attack a zväčšenie many (čarodejsky klobuk). 
+
 <br />
 <br />
 
@@ -214,3 +220,6 @@ tabuľka, ktorá predstavuje jedne súboj pre hrdinu. jeden fight môže mať vi
 
 ## combat_logs
 hra pracuje na báze kôl kde jedno kolo sa rozdeluje na ťahy. jeden ťah sme my útočník a druhý ťah sme my obrancovia. za jeden ťah môžeme spraviť jeden move, či už zaútočiť alebo vyčarovať nejaké kúzlo. každý súboj musí byť logovaný a tak v tejto tabulke sa nachádzajú všetky ťahy vo všetkých súbojov. každý ťah máme dve strany **attacker** a **defender**. vždy sme z pohladu útočníka a preto sa píše koľko zranenia spôsobil utočnik, koľko života zostalo obrancovy, aké spelly použil útočník a obranca (*obranca sa môže napr štítíť pred kúzlom magickým štítom**). každý záznam v combat logu má uvedený v ktorom ťahu to prebehlo **turn_number** a v ktorom kole to prebehlo **round_number**, taktiež odkazuje na súboj **fight_id**. aby sme predišli nedeterminizmu tak id nehratelných postáv sú nalinkované na tabulkú **npc_fight**, lebo sa môže stať, že bojujeme proti dvom rovnakým nepriatelom (maju rovnake id) a pri auditovani by sme nevedeli na ktorého z nich hrdina zaútočil. 
+
+[![ytb_db_showcase](images/images.png)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+Ukážka hehe
