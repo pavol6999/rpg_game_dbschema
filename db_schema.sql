@@ -545,7 +545,6 @@ CREATE TABLE "quests" (
   "description" text,
   "quest_giver" integer NOT NULL,
   "xp_reward" integer NOT NULL,
-  "preceeding_quest_id" integer,
   "gold_reward" integer NOT NULL
 );
 
@@ -583,7 +582,7 @@ ALTER TABLE "npc_spawn_rules" ADD FOREIGN KEY ("map_id") REFERENCES "map" ("id")
 
 ALTER TABLE "npc_spawn_rules" ADD FOREIGN KEY ("npc_id") REFERENCES "non_playable_characters" ("id");
 
-ALTER TABLE "players_locations" ADD FOREIGN KEY ("player_id") REFERENCES "heroes" ("id");
+ALTER TABLE "heroes" ADD FOREIGN KEY ("id") REFERENCES "players_locations" ("player_id");
 
 ALTER TABLE "players_locations" ADD FOREIGN KEY ("map_id") REFERENCES "map" ("id");
 
@@ -690,8 +689,6 @@ ALTER TABLE "quests_player_relationship" ADD FOREIGN KEY ("quest_id") REFERENCES
 ALTER TABLE "quests" ADD FOREIGN KEY ("map_requirement") REFERENCES "map" ("id");
 
 ALTER TABLE "quests" ADD FOREIGN KEY ("quest_giver") REFERENCES "non_playable_characters" ("id");
-
-ALTER TABLE "quests" ADD FOREIGN KEY ("preceeding_quest_id") REFERENCES "quests" ("id");
 
 ALTER TABLE "quest_item_rewards" ADD FOREIGN KEY ("quest_id") REFERENCES "quests" ("id");
 
