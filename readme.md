@@ -19,14 +19,13 @@ najhlavnejšia tabulka v sekcií užívateľov. ukladá nám informácie o konco
 - **nickname** - prezývka, ktorú si nastavil (pr. steam, username zostáva taký istý, nick nie)
 - **password_hash** - heslo nebude ukladané ako plaintext ale ako sha256 hash aby aj "nbusr123" malo ako takú ochranu ( dlžka sha256 hashu - 32byte)
 - **email** - dlhy 64 (user) + @ + 255 (domain) = 320 (**podla RFC 5322**)
-
+- **secret** - retazec, ktorý sa pouzíva pri verifikácií emailu
+- **verified** - status, ci email bol verifikovany. ked sa vytvori ucet, tak je verified *false* a ked pride email so secretom, ktory user zada, tak sa user uspesne verifikuje.
+ Ak je user prihlaseny cez inu sluzbku ako je napriklad facebook alebo google, tak má zaznam v tabulke **external_identity**
 
 ## login_logs
 v tejto tabuľke sa ukladajú všetky úspešné prihlasovania do účtu. presnejšie sa ukladá užívateľské meno, čas loginu a login data. Login data si môžeme predstaviť ako užitočné informácie pre nás z payloadu -> napr. z akej IP adresy sa user prihlásil a miesto aby logika mohla vyhodnotiť či bude treba verifikovať usera aj iným spôsobom ako heslom. 
 **example** steam verifikácia keď sa prihlási z nového zariadenia
-
-## user_permissions
-tabulka, ktorá nám hovorí o právomociach užívateľa. Každý sa prihlási ako obyčajný user a potom sa mu pridelí rola napr. admin/hráč.
 
 ## user_relationship
 tabulka, kde sú uložené všetky vzťahy užívateľov. V momentálnej situácií to je priateľstvo, ignorovanie "správ" na predídenie spamu a block. Ak by sme chceli expandovať hru a túto tabulku, tak by sme mohli pridať napríklad koľko súbojov prebehlo medzi týmito postavami. Je to asociačná tabuľka medzi dvoma hrdinami. 
