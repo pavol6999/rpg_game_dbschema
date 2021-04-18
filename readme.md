@@ -138,7 +138,7 @@ tabuľka, ktorá slúži ako inventár každého hráča. Je to asociačná tabu
 
 # QUESTS SECTION
 ## quests
-tabuľka, kde sú vedené všetky misie, ktoré existujú v hre. Jedna misia - quest - má svoje meno a popis, čo je potrebné aby hrdina spravil aby splnil misiu  a dostal odmenu. na každej mape/lokalite budú npc postavy, ktoré budú dávať tieto misie (**quest_giver_id**), misia zabi finálneho bossa však nebude dostupná ihneď zo začiatku tak preto sú definované požiadavky a to **level_requirement**, **map_requirement**.  každý quest musí nadväzovať čo sa týka príbehu a tak potrebujeme pridať novú požiadavku a to **preceeding_quest_id**, podľa ktorého zoradíme postupnosť questov chronologicky.  Každá misia dáva hrdinovi určítú sumu zlatých mincií **gold_reward**, bodov skúseností **xp_reward**
+tabuľka, kde sú vedené všetky misie, ktoré existujú v hre. Jedna misia - quest - má svoje meno a popis, čo je potrebné aby hrdina spravil aby splnil misiu  a dostal odmenu. na každej mape/lokalite budú npc postavy, ktoré budú dávať tieto misie (**quest_giver_id**), misia zabi finálneho bossa však nebude dostupná ihneď zo začiatku tak preto sú definované požiadavky a to **level_requirement**, **map_requirement**. Každá misia dáva hrdinovi určítú sumu zlatých mincií **gold_reward**, bodov skúseností **xp_reward**
 
 ## quest_item_rewards
 prepojovacia tabuĺka medzi predmetmi a misiami. Niektoré misie môžu ako odmenu dať aj predmety a tak je potrebné aby aj táto požiadavka bola zahrnutá ako tabuľka kde máme id misií **quest_id** a id predmetu **item_id**. 
