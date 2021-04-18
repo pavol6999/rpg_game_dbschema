@@ -251,5 +251,5 @@ tabuľka, ktorá predstavuje jedne súboj pre hrdinu. Jeden fight môže mať vi
 ## combat_logs
 hra pracuje na báze kôl kde jedno kolo sa rozdeluje na ťahy. Jeden ťah sme útočník a druhý ťah sme obrancovia. Za jeden ťah môžeme spraviť jednu akciu, či už zaútočiť alebo vyčarovať nejaké kúzlo. Každý súboj je logovaný a tak v tejto tabulke sa nachádzajú všetky ťahy vo všetkých súbojov. Každý ťah máme dve strany **attacker** a **defender**. vždy sme z pohladu útočníka a preto sa píše koľko zranenia spôsobil utočnik, koľko života zostalo obrancovy, aké kúzla použil útočník a obranca (**obranca sa môže napr štítíť pred kúzlom magickým štítom**). Každý záznam v combat logu má uvedený v ktorom ťahu prebehol **turn_number** a v ktorom kole prebehol **round_number**, taktiež odkazuje na súboj **fight_id**. Aby sme predišli nedeterminizmu tak id nehratelných postáv sú nalinkované na tabulkú **npc_fight**, lebo sa môže stať, že bojujeme proti dvom rovnakým nepriatelom (maju rovnake id) a pri auditovani by sme nevedeli na ktorého z nich hrdina zaútočil. 
 
-[![ytb_db_showcase](images/images.png)](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+[![ytb_db_showcase](images/images.png)](https://www.youtube.com/watch?v=xvFZjo5PgG0)
 Ukážka hehe
