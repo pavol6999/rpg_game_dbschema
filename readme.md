@@ -200,7 +200,10 @@ v tejto sekcií si povieme o všetkých tabuľkách, ktoré majú čo to spoloč
 tabulka, kde sú uložené všetky nehratelné postavy. rozhodli sme sa do tejto tabuľky zahrnúť ako aj nepriateľov, tak aj obyčajných obchodníkov, spojencov, ktorí nie sú hostilny. v hre môžeme zabiť každého. každé npc má svoje meno, hostilitu a unikátny faktor. Ak sa zabije npc, ktoré je unikátne, tak sa zapíše do tabulky **unique_mobs_killed** a toto môže ovplyvniť priebeh hry pre daného hrdinu. Zmení sa príbehová linka pre hrdinu.
 Každé npc majú také isté vlastnosti ako hrdina ale hrá za nich počítač, preto majú tiež svoj život, attack, manu a abilitky, ktoré prepája asociačná tabulka **npc_abilities**
 Každé npc má svoj range pre drop goldu a xp pointov a svoj vlastný loot_drop, ktorý linkuje tabuľka **loot_drop**
-
+## npc_spawn_requirements
+neda sa zamedzit aby sa nepriatel alebo nejaka mobka spawnla po tom ako hráč zabije nejaké monstrum alebo splni quest, lebo tú hru hrá viacero hracov a kazdy by ju musel zabit. preto tieto "unikatne" mobky budú na specialnych oddelenych castiach mapy. 
+- **npc_req_id** pozadovana unikatna mobka zabita
+- **quest_id** pozadovany quest
 ## npc_spells
 prepájaca tabulka medzi schopnosťami a npc postavami aby aj nehrateľné postavy mohli používať schopnosti.
 ## npc_hero_nicknames
