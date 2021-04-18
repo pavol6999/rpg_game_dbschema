@@ -519,6 +519,14 @@ CREATE TABLE accessories (
   persuasion_up smallint
 );
 
+
+CREATE TABLE npc_spawn_requirements (
+  id BIGSERIAL PRIMARY KEY,
+  npc_id integer NOT NULL,
+  npc_required_id integer,
+  quest_id integer
+);
+
 CREATE TABLE npc_fight (
   id SERIAL PRIMARY KEY,
   fight_id integer NOT NULL,
@@ -555,6 +563,12 @@ CREATE TABLE quest_item_rewards (
   quest_id integer NOT NULL,
   item_id integer NOT NULL
 );
+
+ALTER TABLE npc_spawn_requirements ADD FOREIGN KEY (npc_id) REFERENCES non_playable_characters (id);
+
+ALTER TABLE npc_spawn_requirements ADD FOREIGN KEY (npc_required_id) REFERENCES non_playable_characters (id);
+
+ALTER TABLE npc_spawn_requirements ADD FOREIGN KEY (quest_id) REFERENCES quests (id);
 
 ALTER TABLE friend_requests ADD FOREIGN KEY (sender_id) REFERENCES users (id);
 
