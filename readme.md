@@ -138,7 +138,7 @@ tabuľka, ktorá slúži ako inventár každého hráča. Je to asociačná tabu
 
 # QUESTS SECTION
 ## quests
-tabuľka, kde sú vedené všetky misie, ktoré existujú v hre. Jedna misia - quest - má svoje meno a popis, čo je potrebné aby hrdina spravil aby splnil misiu  a dostal odmenu. na každej mape/lokalite budú npc postavy, ktoré budú dávať tieto misie (**quest_giver_id**), misia zabi finálneho bossa však nebude dostupná ihneď zo začiatku tak preto sú definované požiadavky a to **level_requirement**, **map_requirement**.  každý quest musí nadväzovať čo sa týka príbehu a tak potrebujeme pridať novú požiadavku a to **preceeding_quest_id**, podľa ktorého zoradíme postupnosť questov chronologicky.  Každá misia dáva hrdinovi určítú sumu zlatých mincií **gold_reward**, bodov skúseností **xp_reward**
+tabuľka, kde sú vedené všetky misie, ktoré existujú v hre. Jedna misia - quest - má svoje meno a popis, čo je potrebné aby hrdina spravil aby splnil misiu  a dostal odmenu. na každej mape/lokalite budú npc postavy, ktoré budú dávať tieto misie (**quest_giver_id**), misia zabi finálneho bossa však nebude dostupná ihneď zo začiatku tak preto sú definované požiadavky a to **level_requirement**, **map_requirement**. Každá misia dáva hrdinovi určítú sumu zlatých mincií **gold_reward**, bodov skúseností **xp_reward**
 
 ## quest_item_rewards
 prepojovacia tabuĺka medzi predmetmi a misiami. Niektoré misie môžu ako odmenu dať aj predmety a tak je potrebné aby aj táto požiadavka bola zahrnutá ako tabuľka kde máme id misií **quest_id** a id predmetu **item_id**. 
@@ -200,7 +200,10 @@ v tejto sekcií si povieme o všetkých tabuľkách, ktoré majú čo to spoloč
 tabulka, kde sú uložené všetky nehratelné postavy. rozhodli sme sa do tejto tabuľky zahrnúť ako aj nepriateľov, tak aj obyčajných obchodníkov, spojencov, ktorí nie sú hostilny. v hre môžeme zabiť každého. každé npc má svoje meno, hostilitu a unikátny faktor. Ak sa zabije npc, ktoré je unikátne, tak sa zapíše do tabulky **unique_mobs_killed** a toto môže ovplyvniť priebeh hry pre daného hrdinu. Zmení sa príbehová linka pre hrdinu.
 Každé npc majú také isté vlastnosti ako hrdina ale hrá za nich počítač, preto majú tiež svoj život, attack, manu a abilitky, ktoré prepája asociačná tabulka **npc_abilities**
 Každé npc má svoj range pre drop goldu a xp pointov a svoj vlastný loot_drop, ktorý linkuje tabuľka **loot_drop**
-
+## npc_spawn_requirements
+neda sa zamedzit aby sa nepriatel alebo nejaka mobka spawnla po tom ako hráč zabije nejaké monstrum alebo splni quest, lebo tú hru hrá viacero hracov a kazdy by ju musel zabit. preto tieto "unikatne" mobky budú na specialnych oddelenych castiach mapy. 
+- **npc_req_id** pozadovana unikatna mobka zabita
+- **quest_id** pozadovany quest
 ## npc_spells
 prepájaca tabulka medzi schopnosťami a npc postavami aby aj nehrateľné postavy mohli používať schopnosti.
 ## npc_hero_nicknames
