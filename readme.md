@@ -11,6 +11,13 @@
 
 
 # USER SECTION
+## external_identity
+táto tabulka sa pouzíva ak sa niekto chce prihlásiť cez facebook alebo cez google. vyuziva sa protokol oAuth 2.0. 
+- **external_id** - id z externej sluzby
+- **access_token** - token, ktorý predstavuje autorizaciu usera. zaručuje nam prihlasenie hráča do hry 
+- **refresh_token** - token, pomocou ktorého vieme generovat nove access tokeny
+- **expiry_date** - cas expiracie access tokena
+- **oauth_provider** - facebook, google
 
 ## users
 najhlavnejšia tabulka v sekcií užívateľov. ukladá nám informácie o koncovom užívateľovi. 
@@ -18,7 +25,7 @@ najhlavnejšia tabulka v sekcií užívateľov. ukladá nám informácie o konco
 - **username** - prihlasovacie meno
 - **nickname** - prezývka, ktorú si nastavil (pr. steam, username zostáva taký istý, nick nie)
 - **password_hash** - heslo nebude ukladané ako plaintext ale ako sha256 hash aby aj "nbusr123" malo ako takú ochranu ( dlžka sha256 hashu - 32byte)
-- **email** - dlhy 64 (user) + @ + 255 (domain) = 320 (**podla RFC 5322**)
+- **email** - dlhy 64 (user) + @ + 255 (domain) = 320 (**podla RFC 5322**), email je kontrolovany cez regex
 - **secret** - retazec, ktorý sa pouzíva pri verifikácií emailu
 - **verified** - status, ci email bol verifikovany. ked sa vytvori ucet, tak je verified *false* a ked pride email so secretom, ktory user zada, tak sa user uspesne verifikuje.
  Ak je user prihlaseny cez inu sluzbku ako je napriklad facebook alebo google, tak má zaznam v tabulke **external_identity**

@@ -72,7 +72,7 @@ CREATE TYPE quest_status AS ENUM (
 );
 
 
-INSERT INTO users 
+
 CREATE TABLE users (
   id SERIAL UNIQUE PRIMARY KEY,
   username varchar(32) NOT NULL UNIQUE CHECK(LENGTH(users.username) > 5),
@@ -113,7 +113,7 @@ CREATE TABLE messages (
 CREATE TABLE rooms (
   id SERIAL UNIQUE PRIMARY KEY,
   name varchar(20),
-  room_type varchar(10)
+  room_type varchar(10),
   private boolean
 );
 
@@ -187,7 +187,7 @@ CREATE TABLE npc_spawn_rules (
 
 CREATE TABLE players_locations (
   id SERIAL PRIMARY KEY,
-  player_id integer NOT NULL,
+  player_id integer UNIQUE NOT NULL,
   map_id integer NOT NULL,
   x_pos integer NOT NULL,
   y_pos integer NOT NULL,
@@ -204,7 +204,7 @@ CREATE TABLE non_playable_characters (
   id SERIAL PRIMARY KEY,
   name varchar(50) UNIQUE NOT NULL,
   hostile boolean NOT NULL,
-  unique boolean NOT NULL,
+  uniqueness boolean NOT NULL,
   health_points integer NOT NULL,
   mana integer NOT NULL,
   attack_number integer NOT NULL,
@@ -297,7 +297,7 @@ CREATE TABLE requirements (
 
 CREATE TABLE teams (
   team_id SERIAL PRIMARY KEY,
-  team_name varchar(32) NOT NULL CHECK(LENGTH(team.team_name) > 5),
+  team_name varchar(32) NOT NULL CHECK(LENGTH(teams.team_name) > 5),
   team_small_name varchar(5) NOT NULL,
   leader_id integer NOT NULL,
   created_at timestamp NOT NULL
@@ -501,7 +501,7 @@ CREATE TABLE hero_statistics (
   gold_spent integer DEFAULT 0,
   levels_cleared smallint DEFAULT 0,
   bosses_slain integer DEFAULT 0,
-  game_finished boolean DEFAULT 0,
+  game_finished boolean,
   players_slain integer DEFAULT 0,
   deaths integer DEFAULT 0
 );
